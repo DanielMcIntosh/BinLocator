@@ -52,6 +52,7 @@ public class MainActivity extends Activity {
 			coords[i.previousIndex()+placemarksP.size()] = geo.getCoordinates().get(0);
 		}
 		
+		/* temp for testing*/
 		double maxLat = -180, minLat = 180, maxLong = -180, minLong = 180;
 		for (int i = 0; i < coords.length; ++i)
 		{
@@ -64,7 +65,7 @@ public class MainActivity extends Activity {
 		double myLat = (maxLat+minLat)/2, myLong = (maxLong+minLong)/2;
 		for (int i = 0; i < coords.length; ++i)
 		{
-			
+			//Distance algorithm
 		}
 		
 		//
