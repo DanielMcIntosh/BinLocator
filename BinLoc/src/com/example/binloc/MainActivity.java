@@ -18,11 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends Activity {
-	/** Temporary */
-	public static void main(String [] args)
+	Coordinate [] coords;
+		
+	private void loadBinData()
 	{
-		File fP = new File("C:\\Users\\Daniel\\Documents\\Homework\\2014-15\\compsci\\SolidWasteManagment\\ParkBinLocations.kmz");
-		File fS = new File("C:\\Users\\Daniel\\Documents\\Homework\\2014-15\\compsci\\SolidWasteManagment\\StreetBinLocations.kmz");
+		File fP = new File(".\\ParkBinLocations.kmz");
+		File fS = new File(".\\StreetBinLocations.kmz");
 		Kml kmlP = null;
 		Kml kmlS = null;
 		try {
@@ -38,7 +39,7 @@ public class MainActivity extends Activity {
 		Folder folderS = (Folder) docS.getFeature().get(0);
 		List<Feature> placemarksP = folderP.getFeature();
 		List<Feature> placemarksS = folderS.getFeature();
-		Coordinate [] coords = new Coordinate[placemarksP.size()+placemarksS.size()];
+		coords = new Coordinate[placemarksP.size()+placemarksS.size()];
 		for (ListIterator<Feature> i = placemarksP.listIterator(); i.hasNext();)
 		{
 			Placemark p = (Placemark) i.next();
@@ -51,7 +52,10 @@ public class MainActivity extends Activity {
 			Point geo = (Point) p.getGeometry();
 			coords[i.previousIndex()+placemarksP.size()] = geo.getCoordinates().get(0);
 		}
-		
+	}
+	
+	private Coordinate getMyLoc()
+	{
 		/* temp for testing*/
 		double maxLat = -180, minLat = 180, maxLong = -180, minLong = 180;
 		for (int i = 0; i < coords.length; ++i)
@@ -63,12 +67,7 @@ public class MainActivity extends Activity {
 		}
 		
 		double myLat = (maxLat+minLat)/2, myLong = (maxLong+minLong)/2;
-		for (int i = 0; i < coords.length; ++i)
-		{
-			//Distance algorithm
-		}
-		
-		//
+		return new Coordinate(myLat, myLong);
 	}
 	
 	@Override
