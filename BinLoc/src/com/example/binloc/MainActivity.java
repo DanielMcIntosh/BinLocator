@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
 		try {
 			kmlP = Kml.unmarshalFromKmz(fP)[0];
 			kmlS = Kml.unmarshalFromKmz(fS)[0];
-		} catch (IOException e) {
+		} catch (IOException e) { 
 			e.printStackTrace();
 		}
 		
