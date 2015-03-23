@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 import com.example.binloc2.R;
 
+/*
 import de.micromata.opengis.kml.v_2_2_0.Coordinate;
 import de.micromata.opengis.kml.v_2_2_0.Document;
 import de.micromata.opengis.kml.v_2_2_0.Feature;
@@ -14,12 +15,15 @@ import de.micromata.opengis.kml.v_2_2_0.Folder;
 import de.micromata.opengis.kml.v_2_2_0.Kml;
 import de.micromata.opengis.kml.v_2_2_0.Placemark;
 import de.micromata.opengis.kml.v_2_2_0.Point;
+//*/
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends Activity {
+	
+	/*
 	Coordinate [] coords;
 		
 	private void loadBinData()
@@ -58,7 +62,7 @@ public class MainActivity extends Activity {
 	
 	private Coordinate getMyLoc()
 	{
-		/* temp for testing*/
+		// temp for testing
 		double maxLat = -180, minLat = 180, maxLong = -180, minLong = 180;
 		for (int i = 0; i < coords.length; ++i)
 		{
@@ -71,6 +75,7 @@ public class MainActivity extends Activity {
 		double myLat = (maxLat+minLat)/2, myLong = (maxLong+minLong)/2;
 		return new Coordinate(myLat, myLong);
 	}
+	//*/
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
