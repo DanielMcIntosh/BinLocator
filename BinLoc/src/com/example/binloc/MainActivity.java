@@ -22,8 +22,8 @@ public class MainActivity extends Activity {
 		
 	private void loadBinData()
 	{
-		File fP = new File(".\\ParkBinLocations.kmz");
-		File fS = new File(".\\StreetBinLocations.kmz");
+		File fP = new File(".\\files/ParkBinLocations.kmz");
+		File fS = new File(".\\files/StreetBinLocations.kmz");
 		Kml kmlP = null;
 		Kml kmlS = null;
 		try {
