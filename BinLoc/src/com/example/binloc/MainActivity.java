@@ -13,7 +13,8 @@ import android.view.MenuItem;
 public class MainActivity extends Activity {
 	PointF [] pArr = {new PointF((float)43.716303499999995, (float)-79.37140600000001)};
 	ArrayList<PointF> bins = new ArrayList<PointF>(Arrays.asList(pArr));
-    @Override
+
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
