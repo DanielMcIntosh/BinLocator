@@ -18,7 +18,7 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends Activity {
-	File fBins = new File(".\\bins.txt");
+	File fBins = new File("bins.txt");
 	ArrayList<PointF> bins = new ArrayList<PointF>();
 
 	private void loadBins()
