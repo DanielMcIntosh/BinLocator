@@ -1,7 +1,14 @@
 package com.example.binloc;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.graphics.PointF;
@@ -11,14 +18,37 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends Activity {
-	PointF [] pArr = {new PointF((float)43.716303499999995, (float)-79.37140600000001)};
-	ArrayList<PointF> bins = new ArrayList<PointF>(Arrays.asList(pArr));
+	File fBins = new File(".\\bins.txt");
+	ArrayList<PointF> bins = new ArrayList<PointF>();
 
+	private void loadBins()
+	{
+        BufferedReader binReader = null;
+        try {
+			Pattern p = Pattern.compile("(-?\\d+\\.?\\d*), (-?\\d+\\.?\\d*)");
+			binReader = new BufferedReader(new FileReader(fBins));
+			
+			String s;
+			while(!(s = binReader.readLine()).isEmpty())
+			{
+				Matcher m = p.matcher(s);
+				double lat = Double.parseDouble(m.group(1)), lon = Double.parseDouble(m.group(2));
+				bins.add(new PointF((float)lat, (float)lon));
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
+        
+        loadBins();
+	}
 
 
     @Override
