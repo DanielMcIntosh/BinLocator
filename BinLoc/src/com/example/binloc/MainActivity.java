@@ -42,6 +42,47 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * calculates the approximate distance within an error of 
+	 * points should be in the form x = latitude, y = longitude
+	 * 
+	 * @param p1
+	 * @param p2
+	 * @return
+	 */
+	public double getDist(PointF p1, PointF p2, int technique)
+	{
+		int R = 6371000; // metres
+		double lat1 = Math.toRadians(p1.x), lat2 = Math.toRadians(p2.x);
+		double deltaLat = Math.toRadians(lat2-lat1);
+		double lon1 = Math.toRadians(p1.y), lon2 = Math.toRadians(p2.y);
+		double deltaLon = Math.toRadians(-lon1);
+		
+		double d = 0;
+		switch(technique){
+			case 0: //pythagorean
+			{
+				double x = (lon2-lon1) * Math.cos((lat1+lat2)/2);
+				double y = (lat2-lat1);
+				d = Math.sqrt(x*x + y*y) * R;
+				break;
+			}
+			case 1: //haversine
+			{
+				double a = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
+				        Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLon/2) * Math.sin(deltaLon/2);
+				double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+				d = R * c;
+				break;
+			}
+			case 2: //Spherical Law of Cosines
+			{
+				d = Math.acos( Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2) * Math.cos(deltaLon) ) * R;
+			}
+		}
+		return d;
+	}
+	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
