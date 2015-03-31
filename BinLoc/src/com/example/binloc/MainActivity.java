@@ -10,16 +10,26 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.example.bintracker.R;
+import com.example.bintracker.MainActivity.mylocationlistener;
+
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.PointF;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
 	File fBins = new File("bins.txt");
 	ArrayList<PointF> bins = new ArrayList<PointF>();
+	
+	PointF myLocation = new PointF(0,0);
 
 	private void loadBins()
 	{
@@ -88,6 +98,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+        updateUserLocation();
         loadBins();
 	}
 
@@ -110,4 +121,41 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    public void updateUserLocation(){
+//    	 textLat = (TextView)findViewById(R.id.textLat);
+//       textLong = (TextView)findViewById(R.id.textLong);
+         
+         LocationManager Lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+         LocationListener Ll = new mylocationlistener();
+         Lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, Ll);
+    }
+    
+    class mylocationlistener implements LocationListener{
+
+		@Override
+		public void onLocationChanged(Location location) {
+			// TODO Auto-generated method stub
+			if(location != null){
+				float pLong = (float)location.getLongitude();
+				float pLat = (float)location.getLatitude();
+				
+				myLocation.set(pLat,pLong);
+				
+//				textLat.setText(Double.toString(pLat));
+//				textLong.setText(Double.toString(pLong));
+			}
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+		@Override
+		public void onProviderEnabled(String provider) {}
+
+		@Override
+		public void onProviderDisabled(String provider) {}
+    	
+    }
+    
 }
