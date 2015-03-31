@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,9 +28,9 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	File fBins = new File("bins.txt");
-	ArrayList<PointF> bins = new ArrayList<PointF>();
+	ArrayList<Bin> bins = new ArrayList<Bin>();
 	
-	PointF myLocation = new PointF(0,0);
+	static Bin myLocation = new Bin(0,0,0B000);
 
 	private void loadBins()
 	{
@@ -43,7 +44,8 @@ public class MainActivity extends Activity {
 			{
 				Matcher m = p.matcher(s);
 				double lat = Double.parseDouble(m.group(1)), lon = Double.parseDouble(m.group(2));
-				bins.add(new PointF((float)lat, (float)lon));
+				int types = 0B011; //to add
+				bins.add(new Bin(lat, lon, types));
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -52,48 +54,38 @@ public class MainActivity extends Activity {
 		}
 	}
 	
-	/**
-	 * calculates the approximate distance within an error of 
-	 * points should be in the form x = latitude, y = longitude
-	 * @param p1
-	 * @param p2
-	 * @param technique
-	 * 		controls which technique is used to calculate distance.
-	 * 		0 will use pythagorean, 1 haversine, 2 Spherical law of cosines 
-	 * @return distance
-	 */
-	public double getDist(PointF p1, PointF p2, int technique)
+	private Bin [] getNearestFiveBins()
 	{
-		int R = 6371000; // metres
-		double lat1 = Math.toRadians(p1.x), lat2 = Math.toRadians(p2.x);
-		double deltaLat = Math.toRadians(lat2-lat1);
-		double lon1 = Math.toRadians(p1.y), lon2 = Math.toRadians(p2.y);
-		double deltaLon = Math.toRadians(lon2-lon1);
-		
-		double d = 0;
-		switch(technique){
-			case 0: //pythagorean
+		Bin [] closeBins = new Bin[5];
+		List<Bin> tempBins = bins.subList(0, 1);
+		for (int i = 1; i < 5; ++i)
+		{
+			for (int j = 0; j <= i; ++j)
 			{
-				double x = (lon2-lon1) * Math.cos((lat1+lat2)/2);
-				double y = (lat2-lat1);
-				d = Math.sqrt(x*x + y*y) * R;
-				break;
-			}
-			case 1: //haversine
-			{
-				double a = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
-				        Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLon/2) * Math.sin(deltaLon/2);
-				double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-				d = R * c;
-				break;
-			}
-			case 2: //Spherical Law of Cosines
-			{
-				d = Math.acos( Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2) * Math.cos(deltaLon) ) * R;
+				if (j == i || (tempBins.get(j).compareTo(bins.get(i))) > 0)
+				{
+					tempBins.add(j, bins.get(i));
+					break;
+				}
 			}
 		}
-		return d;
-	}
+		closeBins = tempBins.toArray(closeBins);
+		
+		for (int i = 5; i < bins.size(); ++i)
+		{
+			Bin curBin = bins.get(i);
+			if (closeBins[closeBins.length-1].compareTo(curBin) > 0)
+			{
+				closeBins[4] = curBin;
+				for (int j = closeBins.length-1; j > 0 && closeBins[j-1].compareTo(curBin) > 0; --j)
+				{
+					closeBins[j] = closeBins[j-1];
+					closeBins[j-1] = curBin;
+				}
+			}
+		}
+		return closeBins;
+	}	
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +134,7 @@ public class MainActivity extends Activity {
 				float pLong = (float)location.getLongitude();
 				float pLat = (float)location.getLatitude();
 				
-				myLocation.set(pLat,pLong);
+				myLocation = new Bin(pLat, pLong, 0B000);
 				
 //				textLat.setText(Double.toString(pLat));
 //				textLong.setText(Double.toString(pLong));
