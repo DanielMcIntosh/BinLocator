@@ -55,10 +55,12 @@ public class MainActivity extends Activity {
 	/**
 	 * calculates the approximate distance within an error of 
 	 * points should be in the form x = latitude, y = longitude
-	 * 
 	 * @param p1
 	 * @param p2
-	 * @return
+	 * @param technique
+	 * 		controls which technique is used to calculate distance.
+	 * 		0 will use pythagorean, 1 haversine, 2 Spherical law of cosines 
+	 * @return distance
 	 */
 	public double getDist(PointF p1, PointF p2, int technique)
 	{
@@ -66,7 +68,7 @@ public class MainActivity extends Activity {
 		double lat1 = Math.toRadians(p1.x), lat2 = Math.toRadians(p2.x);
 		double deltaLat = Math.toRadians(lat2-lat1);
 		double lon1 = Math.toRadians(p1.y), lon2 = Math.toRadians(p2.y);
-		double deltaLon = Math.toRadians(-lon1);
+		double deltaLon = Math.toRadians(lon2-lon1);
 		
 		double d = 0;
 		switch(technique){
