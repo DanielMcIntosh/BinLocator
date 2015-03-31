@@ -10,8 +10,8 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.example.bintracker.R;
-import com.example.bintracker.MainActivity.mylocationlistener;
+import com.example.binloc.R;
+import com.example.binloc.MainActivity.mylocationlistener;
 
 import android.app.Activity;
 import android.content.Context;
