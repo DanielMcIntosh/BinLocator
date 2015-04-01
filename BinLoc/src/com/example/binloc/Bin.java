@@ -3,9 +3,9 @@ package com.example.binloc;
 import android.graphics.PointF;
 
 public class Bin implements Comparable{
-	double lat, lon;
-	int types;
-	public static final int GarbageMask = 0B001, RecyclingMask = 0B010, GreenMask = 0B100;
+	private double lat, lon;
+	private int types;
+	public static final int LitterMask = 0B001, RecyclingMask = 0B010, GreenMask = 0B100;
 	
 	public Bin(double lat, double lon, int types)
 	{
@@ -65,10 +65,11 @@ public class Bin implements Comparable{
 		return d;
 	}
 	
-	double getLat() { return lat;}
-	double getLon() { return lon;}
+	public double getLat() { return lat; }
+	public double getLon() { return lon; }
 	
-	boolean isGarbage() { return (types&GarbageMask) != 0; }
-	boolean isRecycling() { return (types&RecyclingMask) != 0; }
-	boolean isGreenBin() { return (types&GreenMask) != 0; }
+	public int getTypes() {return types; }
+	public boolean isLitter() { return (types&LitterMask) != 0; }
+	public boolean isRecycling() { return (types&RecyclingMask) != 0; }
+	public boolean isGreenBin() { return (types&GreenMask) != 0; }
 }

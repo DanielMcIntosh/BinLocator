@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 	{
         BufferedReader binReader = null;
         try {
-			Pattern p = Pattern.compile("(-?\\d+\\.?\\d*), (-?\\d+\\.?\\d*)");
+			Pattern p = Pattern.compile("(-?\\d+\\.?\\d*), (-?\\d+\\.?\\d*) types = (\\d)");
 			binReader = new BufferedReader(new FileReader(fBins));
 			
 			String s;
@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
 			{
 				Matcher m = p.matcher(s);
 				double lat = Double.parseDouble(m.group(1)), lon = Double.parseDouble(m.group(2));
-				int types = 0B011; //to add
+				int types = Integer.parseInt(m.group(3));
 				bins.add(new Bin(lat, lon, types));
 			}
 		} catch (FileNotFoundException e) {
