@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
 	File fBins = new File("bins.txt");
 	ArrayList<Bin> bins = new ArrayList<Bin>();
 	
-	static Bin myLocation = new Bin(0,0,0B000);
+	static Bin myLocation = new Bin(0,0,0B1000);
 
 	private void loadBins()
 	{
@@ -134,7 +134,7 @@ public class MainActivity extends Activity {
 				float pLong = (float)location.getLongitude();
 				float pLat = (float)location.getLatitude();
 				
-				myLocation = new Bin(pLat, pLong, 0B000);
+				myLocation = new Bin(pLat, pLong, 0B1000);
 				
 //				textLat.setText(Double.toString(pLat));
 //				textLong.setText(Double.toString(pLong));

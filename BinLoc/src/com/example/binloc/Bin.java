@@ -5,7 +5,7 @@ import android.graphics.PointF;
 public class Bin implements Comparable{
 	private double lat, lon;
 	private int types;
-	public static final int LitterMask = 0B001, RecyclingMask = 0B010, GreenMask = 0B100;
+	public static final int LitterMask = 0B001, RecyclingMask = 0B010, GreenMask = 0B100, PersonMask = 0B1000;
 	
 	public Bin(double lat, double lon, int types)
 	{
@@ -72,4 +72,5 @@ public class Bin implements Comparable{
 	public boolean isLitter() { return (types&LitterMask) != 0; }
 	public boolean isRecycling() { return (types&RecyclingMask) != 0; }
 	public boolean isGreenBin() { return (types&GreenMask) != 0; }
+	public boolean isPerson() { return (types&PersonMask) != 0; }
 }
