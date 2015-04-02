@@ -1,11 +1,15 @@
 package com.example.binloc;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;
@@ -36,13 +40,12 @@ public class MainActivity extends Activity {
 			}				
 		}		
 		is.close();	
-		Toast.makeText(getBaseContext(), 
-				buf.toString(), Toast.LENGTH_LONG).show();				
-			
-       /* BufferedReader binReader = null;
+		
+		
+		BufferedReader binReader = null;
         try {
 			Pattern p = Pattern.compile("(-?\\d+\\.?\\d*), (-?\\d+\\.?\\d*) types = (\\d)");
-			binReader = new BufferedReader(new InputStreamReader(is));
+			binReader = new BufferedReader(new StringReader(buf.toString()));
 			
 			String s;
 			while(!(s = binReader.readLine()).isEmpty())
@@ -56,7 +59,7 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 	
 	private Bin [] getNearestFiveBins()
