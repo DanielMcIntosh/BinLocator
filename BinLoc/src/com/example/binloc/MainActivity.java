@@ -29,37 +29,21 @@ public class MainActivity extends Activity {
 
 	private void loadBins() throws IOException
 	{
+		Pattern p = Pattern.compile("(-?[0-9]+\\.?[0-9]*), (-?[0-9]+\\.?[0-9]*) types = ([0-9]+)");
 
 		String str="";
-		StringBuffer buf = new StringBuffer();			
 		InputStream is = getResources().openRawResource(R.drawable.bins);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		if (is!=null) {							
 			while ((str = reader.readLine()) != null) {	
-				buf.append(str + "\n" );
-			}				
-		}		
-		is.close();	
-		
-		
-		BufferedReader binReader = null;
-        try {
-			Pattern p = Pattern.compile("(-?\\d+\\.?\\d*), (-?\\d+\\.?\\d*) types = (\\d)");
-			binReader = new BufferedReader(new StringReader(buf.toString()));
-			
-			String s;
-			while(!(s = binReader.readLine()).isEmpty())
-			{
-				Matcher m = p.matcher(s);
+				Matcher m = p.matcher(str);
+				m.find();
 				double lat = Double.parseDouble(m.group(1)), lon = Double.parseDouble(m.group(2));
 				int types = Integer.parseInt(m.group(3));
 				bins.add(new Bin(lat, lon, types));
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			}				
+		}		
+		is.close();	
 	}
 	
 	private Bin [] getNearestFiveBins()
@@ -79,7 +63,7 @@ public class MainActivity extends Activity {
 		}
 		closeBins = tempBins.toArray(closeBins);
 		
-		/*for (int i = 5; i < bins.size(); ++i)
+		for (int i = 5; i < bins.size(); ++i)
 		{
 			Bin curBin = bins.get(i);
 			if (closeBins[closeBins.length-1].compareTo(curBin) > 0)
@@ -91,7 +75,7 @@ public class MainActivity extends Activity {
 					closeBins[j-1] = curBin;
 				}
 			}
-		}*/
+		}
 		return closeBins;
 	}	
 	
